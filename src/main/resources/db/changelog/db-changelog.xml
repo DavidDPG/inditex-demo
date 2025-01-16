@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro
+        http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <preConditions>
+        <runningAs username="liquibase"/>
+    </preConditions>
+
+    <changeSet id="1" author="daviddpg">
+        <createTable tableName="PRICES">
+            <column name="BRAND_ID" type="int">         <!--Expecting int to be enough-->
+                <constraints nullable="false"/>         <!--A tariff is meaningless without a brand-->
+            </column>
+
+            <column name="START_DATE" type="datetime">
+                <constraints nullable="false"/>         <!--A tariff should have an initial date-->
+            </column>
+
+            <column name="END_DATE" type="datetime">
+                <constraints nullable="false"/>         <!--A tariff should have an end date-->
+            </column>
+
+            <column name="PRICE_LIST" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="PRODUCT_ID" type="bigint">    <!--Just in case there are more than 2^31 SKUs-->
+                <constraints nullable="false"/>         <!--A tariff is meaningless without a product-->
+            </column>
+            
+            <column name="PRIORITY" type="int"/>
+
+            <column name="PRICE" type="int">
+                <constraints nullable="false"/>         <!--A tariff needs a target price-->
+            </column>
+
+            <column name="CURR" type="varchar(3)">      <!--Assuming ISO 4217 currency codes-->
+                <constraints nullable="false"/>         <!--A tariff needs the currency-->
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
