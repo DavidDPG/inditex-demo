@@ -21,7 +21,7 @@
                 <constraints nullable="false"/>         <!--A tariff is meaningless without a brand-->
             </column>
 
-            <column name="START_DATE" type="datetime">
+            <column name="START_DATE" type="datetime">  <!--TIMESTAMP/DATETIME seem the most appropriate data types-->
                 <constraints nullable="false"/>         <!--A tariff should have an initial date-->
             </column>
 
@@ -29,7 +29,7 @@
                 <constraints nullable="false"/>         <!--A tariff should have an end date-->
             </column>
 
-            <column name="PRICE_LIST" type="int">
+            <column name="PRICE_LIST" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
