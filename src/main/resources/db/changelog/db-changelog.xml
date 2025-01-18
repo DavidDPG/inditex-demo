@@ -39,7 +39,7 @@
             
             <column name="PRIORITY" type="int"/>
 
-            <column name="PRICE" type="int">
+            <column name="PRICE" type="decimal(12, 2)"> <!--Hopefully Inditex does not have prices that can go up to this-->
                 <constraints nullable="false"/>         <!--A rate needs a target price-->
             </column>
 
