@@ -3,6 +3,7 @@ package com.daviddpg.inditexdemo.domain.entity;
 import com.daviddpg.inditexdemo.domain.valueobject.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Rate {
 
@@ -16,7 +17,7 @@ public class Rate {
     private final RateEndDate endDate;
 
     public boolean matchesWithDateTime(LocalDateTime dateTime) {
-        return dateTime.isAfter(startDate.startDate()) && dateTime.isBefore(endDate.endDate());
+        return startDate.isSameOrBeforeThan(dateTime) && endDate.isSameOrAfterThan(dateTime);
     }
 
     public RateId getRateId() {
@@ -124,4 +125,23 @@ public class Rate {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rate rate = (Rate) o;
+        return Objects.equals(rateId, rate.rateId)
+                && Objects.equals(brandId, rate.brandId)
+                && Objects.equals(productId, rate.productId)
+                && Objects.equals(currency, rate.currency)
+                && Objects.equals(price, rate.price)
+                && Objects.equals(priority, rate.priority)
+                && Objects.equals(startDate, rate.startDate)
+                && Objects.equals(endDate, rate.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rateId, brandId, productId, currency, price, priority, startDate, endDate);
+    }
 }
