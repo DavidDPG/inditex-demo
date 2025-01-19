@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -32,6 +31,9 @@ public class RateService {
                 .filter(rate -> rate.matchesWithDateTime(dateTime))
                 .max(Comparator.comparing(Rate::getPriority))
                 .orElseThrow(() -> new RateNotFoundException("Could not find Rate that matches parameters"));
+
+        log.debug("Found Rate that matches parameters");
+        log.trace("Rate: {}", foundRate);
 
         return foundRate;
     }
