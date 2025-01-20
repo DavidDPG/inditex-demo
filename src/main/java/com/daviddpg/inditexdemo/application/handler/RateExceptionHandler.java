@@ -1,5 +1,6 @@
 package com.daviddpg.inditexdemo.application.handler;
 
+import com.daviddpg.inditexdemo.application.exception.RateDateTimeFormatException;
 import com.daviddpg.inditexdemo.service.exception.RateNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,4 +23,17 @@ public class RateExceptionHandler {
                 .message(rateNotFoundException.getMessage())
                 .build();
     }
+
+    @ResponseBody
+    @ExceptionHandler(RateDateTimeFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleException(RateDateTimeFormatException rateDateTimeFormatException) {
+        log.error(rateDateTimeFormatException.getMessage(), rateDateTimeFormatException);
+        return ErrorDTO.builder()
+                .code(HttpStatus.BAD_REQUEST.toString())
+                .message(rateDateTimeFormatException.getMessage())
+                .build();
+    }
+
+
 }
