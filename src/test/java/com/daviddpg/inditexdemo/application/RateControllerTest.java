@@ -110,7 +110,7 @@ public class RateControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.rateId").value("4"));
     }
 
-    // Extra test for not found
+    // Extra tests
     @Test
     @DisplayName("10:00 del día 10 del producto 35455 para la brand 1 (ZARA)")
     void test6() throws Exception {
@@ -241,5 +241,22 @@ public class RateControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("404 NOT_FOUND"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Could not find Rate that matches parameters"));
+    }
+
+    @Test
+    @DisplayName("Formato de fecha invalido(20200614-183000)")
+    void test14() throws Exception {
+        this.mockMvc.perform(
+                        MockMvcRequestBuilders.get(RATES_URL)
+                                .queryParam(DATETIME_PARAM, "20200614-183000")
+                                .queryParam(PRODUCT_ID_PARAM, "35455")
+                                .queryParam(BRAND_ID_PARAM, "1")
+                )
+                .andDo(
+                        MockMvcResultHandlers.print()
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("400 BAD_REQUEST"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("dateTime format is incorrect"));
     }
 }

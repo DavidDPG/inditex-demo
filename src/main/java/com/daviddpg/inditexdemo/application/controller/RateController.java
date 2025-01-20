@@ -1,6 +1,7 @@
 package com.daviddpg.inditexdemo.application.controller;
 
 import com.daviddpg.inditexdemo.application.dto.RateOutputDto;
+import com.daviddpg.inditexdemo.application.exception.RateDateTimeFormatException;
 import com.daviddpg.inditexdemo.service.RateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Slf4j
 @RestController
@@ -39,7 +41,13 @@ public class RateController {
         log.info("GET /rates?productId={}&brand={}&date={}", productId, brandId, dateTime);
 
         log.debug("Parsing dateTime: {}", dateTime);
-        var parsedDateTime = LocalDateTime.parse(dateTime, INDITEX_DATE_TIME_FORMATTER);
+        LocalDateTime parsedDateTime;
+
+        try {
+            parsedDateTime = LocalDateTime.parse(dateTime, INDITEX_DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException ex) {
+            throw new RateDateTimeFormatException("dateTime format is incorrect", ex);
+        }
 
         var rate = rateService.getRateForProductBrandInDate(brandId, productId, parsedDateTime);
         var rateDto = RateOutputDto.ofEntity(rate);
