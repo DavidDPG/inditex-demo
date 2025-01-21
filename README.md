@@ -10,7 +10,7 @@ The database is pre-populated at startup using liquibase. The master changelog i
 
  - The demo is written in english, because it's my daily work language and the example data columns I was given in requirements.txt was in english.
  - The dates given did not contain any timezone information, so I assumed that it was expected of me to work with local time APIs(such as LocalDateTime) and not actual timeline APIs (such as Instant or ZonedDateTime).
- - Given the small scope and time window I had, I assumed a quick and simple architecture would be enough. Possible hexagonal architecture on a Diagram is in the works.
+ - Given the small scope and time window I had, I assumed a quick and simple architecture would be enough.
  - Decided to use the Lombok library to reduce boilerplate.
  - Every parameter in the endpoint is a @RequestParam. Normally I would use PathVariables if Brand and Product entities have their own endpoints and logic, but given the simplicity of the given dataset I opted for @RequestParam.
  - I believe this specific use case could be solved with a slightly more contrived query, but given that this challenge is meant to analyze my Java development skills I opted to develop the use case logic using Java.
@@ -27,3 +27,4 @@ The database is pre-populated at startup using liquibase. The master changelog i
  - Parameter validation via JSR303 would be nice to have.
  - The architecture is a simple 3 layer with domain rules and names. Good enough for the use case, a Hexagonal modularized one could be better for a bigger project.
  - The use of LocalDateTime makes it so that it's ambiguous when a Rate applies depending on which part of the world you are. I would change that to a DateTime with a ZoneId, Offset, or just a timestamp like Instant.
+ - I have included two diagrams in ./diagrams where you can see the as-is and an improvement proposal. Given the scope of the project, a simple layered architecture was used, but if the scope was bigger, with more input and output ports, an hexagonal architecture with DIP for output ports is proposed in ./diagrams/inditex-demo.proposal.png
